@@ -18,12 +18,12 @@
          sort
          distinct)))
 
-(defn find-next-factor
-  "Find the next factor that is mapped by the next linear-combination ordered sequentially"
-  [min-input required-factors linear-combinations]
+(defn find-next-offset
+  "Find the next offset that is mapped by the next linear-combination ordered sequentially"
+  [min-input required-offsets linear-combinations]
   (loop [[p & remaining] linear-combinations]
     (let [m (mod p min-input)]
-      (if (some #(= m %) required-factors)
+      (if (some #(= m %) required-offsets)
         {:p p :m m :linear-combinations remaining}
         (recur remaining)))))
 
@@ -33,14 +33,14 @@
   {:pre [(every? #(and (integer? %) (> % 0)) inputs)]}
   (let [min-input (apply min inputs)]
     (loop [linear-combinations (get-linear-combinations inputs)
-           required-factors (set (range min-input))]
-      (if (< (count required-factors) 2)
-        (let [p (-> (find-next-factor min-input required-factors linear-combinations)
+           required-offsets (set (range min-input))]
+      (if (< (count required-offsets) 2)
+        (let [p (-> (find-next-offset min-input required-offsets linear-combinations)
                     :p)]
           (- p min-input))
         (let [{:keys [m linear-combinations]}
-              (find-next-factor min-input required-factors linear-combinations)]
-          (recur linear-combinations (disj required-factors m)))))))
+              (find-next-offset min-input required-offsets linear-combinations)]
+          (recur linear-combinations (disj required-offsets m)))))))
 
 (defn -main
   "Invoke me with clojure -M -m main"
