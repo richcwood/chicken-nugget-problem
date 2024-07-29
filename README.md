@@ -35,7 +35,7 @@ Similarly for:
 ```
 
 Since 49 satisfies the last required offset we can simlpy subtract the minimum input value, in this case 6, to get
-the final answers which for this set of inputs which is 43.
+the final answers which for this set of inputs is 43.
 
 The solution works as follows:
 
